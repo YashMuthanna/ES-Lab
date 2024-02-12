@@ -1,0 +1,39 @@
+	AREA reset, DATA, READONLY
+	EXPORT __Vectors
+__Vectors
+	DCD 0x10001000
+	DCD	Reset_Handler
+	ALIGN
+	AREA mycode, CODE, READONLY
+	EXPORT Reset_Handler
+	ENTRY
+Reset_Handler
+	LDR R0, =src1
+	LDR R1, =src2
+	
+	LDR R2, [R0],#4
+	LDR R3, [R1],#4
+	SUBS R4, R2, R3
+	
+	LDR R2, [R0],#4
+	LDR R3, [R1],#4
+	SBCS R5, R2, R3
+	
+	LDR R2, [R0],#4
+	LDR R3, [R1],#4
+	SBCS R6, R2, R3
+	
+	LDR R2, [R0]
+	LDR R3, [R1]
+	SBCS R7, R2, R3
+	SBCS R9, #0
+	
+STOP B STOP
+src1 DCD 0x12345678, 0x87654321, 0XAAABBCC, 0X456612
+src2 DCD 0x99912311, 0x87656, 0x3124761, 0x4235672
+	AREA mydata, DATA, READWRITE
+DST DCD 0,0
+	END
+	
+	
+;subtract 2 128 bit numbers
